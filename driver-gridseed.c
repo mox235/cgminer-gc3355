@@ -45,22 +45,6 @@
 
 static const char *gridseed_version = "v3.8.5.20140210.02";
 
-typedef struct s_gridseed_info {
-	enum sub_ident	ident;
-	uint32_t	fw_version;
-	struct timeval	scanhash_time;
-	int		nonce_count[8];  // per chip
-	int		error_count[8];  // per chip
-	char		*serial;
-	// options
-	int		baud;
-	int		freq;
-	unsigned char	freq_cmd[8];
-	int		chips; //chips per module
-	int		voltage;
-	int		per_chip_stats;
-} GRIDSEED_INFO;
-
 /* commands to set core frequency */
 static const int opt_frequency[] = {
         700,  706,  713,  719,  725,  731,  738,  744,

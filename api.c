@@ -37,6 +37,10 @@
 #define HAVE_AN_FPGA 1
 #endif
 
+#if  defined(USE_GRIDSEED)
+#include "driver-gridseed.h"
+#endif
+
 // Big enough for largest API request
 //  though a PC with 100s of PGAs may exceed the size ...
 //  data is truncated at the end of the last record that fits
@@ -2098,6 +2102,10 @@ static void ascstatus(struct io_data *io_data, int asc, bool isjson, bool precom
 		root = api_add_string(root, "Status", status, false);
 		root = api_add_temp(root, "Temperature", &temp, false);
 #ifdef USE_GRIDSEED
+        GRIDSEED_INFO *info = cgpu->device_data;
+        root = api_add_string(root, "Serial", cgpu->usbdev->serial_string, false);
+        root = api_add_freq(root, "Frequency", &(info->frequency), false);
+        root = api_add_volts(root, "Voltage", &(info->voltage), false);
 		double khs = (cgpu->total_mhashes / dev_runtime) * 1000;
 		root = api_add_khs(root, "KHS av", &khs, false);
 		char khsname[27];

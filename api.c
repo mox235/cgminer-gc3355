@@ -2104,21 +2104,20 @@ static void ascstatus(struct io_data *io_data, int asc, bool isjson, bool precom
 #ifdef USE_GRIDSEED
         GRIDSEED_INFO *info = cgpu->device_data;
         root = api_add_string(root, "Serial", cgpu->usbdev->serial_string, false);
-        root = api_add_freq(root, "Frequency", &(info->frequency), false);
-        root = api_add_volts(root, "Voltage", &(info->voltage), false);
-		double khs = (cgpu->total_mhashes / dev_runtime) * 1000;
+        root = api_add_int(root, "Frequency", &(info->freq), false);
+        root = api_add_int(root, "Voltage", &(info->voltage), false);
+        double khs = (cgpu->total_mhashes / dev_runtime) * 1000;
 		root = api_add_khs(root, "KHS av", &khs, false);
 		char khsname[27];
 		sprintf(khsname, "KHS %ds", opt_log_interval);
 		double khs_av = (cgpu->rolling) * 1000;
 		root = api_add_khs(root, khsname, &khs_av, false);
-#else
+#endif
 		double mhs = cgpu->total_mhashes / dev_runtime;
 		root = api_add_mhs(root, "MHS av", &mhs, false);
 		char mhsname[27];
 		sprintf(mhsname, "MHS %ds", opt_log_interval);
 		root = api_add_mhs(root, mhsname, &(cgpu->rolling), false);
-#endif
 		root = api_add_int(root, "Accepted", &(cgpu->accepted), false);
 		root = api_add_int(root, "Rejected", &(cgpu->rejected), false);
 		root = api_add_int(root, "Hardware Errors", &(cgpu->hw_errors), false);
